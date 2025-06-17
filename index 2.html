@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>화학 마술 실험 - 포비돈 & 비타민C</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #ffa500;
+        }
+        .beaker-container {
+            position: relative;
+            width: 200px;
+            height: 300px;
+            margin: 20px auto;
+            background: linear-gradient(to top, #5d4037 30%, transparent 30%);
+            border: 4px solid #ccc;
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+        }
+        .liquid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background-color: #5d4037;
+            transition: all 1.5s ease;
+        }
+        .bubble {
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            animation: rise 2s ease-out forwards;
+        }
+        @keyframes rise {
+            from { bottom: 0; opacity: 1; }
+            to { bottom: 100%; opacity: 0; }
+        }
+        .stirrer {
+            width: 5px;
+            height: 80px;
+            background-color: #bbb;
+            position: absolute;
+            left: 50%;
+            top: 20%;
+            animation: stir 2s ease-in-out;
+            transform: translateX(-50%);
+        }
+        @keyframes stir {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            50% { transform: translateX(-50%) rotate(30deg); }
+            100% { transform: translateX(-50%) rotate(-30deg); }
+        }
+        .btn {
+            padding: 10px 16px;
+            margin: 8px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 마법의 비커 시뮬레이션</h1>
+    <div class="beaker-container" id="beaker">
+        <div class="liquid" id="liquid"></div>
+    </div>
+    <div>
+        <button class="btn" onclick="addLiquid()">액체 비타민 C</button>
+        <button class="btn" onclick="addPowder()">가루 비타민 C</button>
+        <button class="btn" onclick="resetBeaker()">다시하기</button>
+    </div>
+
+    <script>
+        let level = 30;
+
+        function addLiquid() {
+            if (level < 90) {
+                level += 15;
+                updateBeaker("#cfeef5");
+                generateBubbles(5);
+            }
+        }
+
+        function addPowder() {
+            updateBeaker("#d8f6e0");
+            generateBubbles(10);
+            stir();
+        }
+
+        function generateBubbles(count) {
+            const beaker = document.getElementById("beaker");
+            for (let i = 0; i < count; i++) {
+                const bubble = document.createElement("div");
+                bubble.className = "bubble";
+                bubble.style.left = Math.random() * 180 + "px";
+                beaker.appendChild(bubble);
+                setTimeout(() => beaker.removeChild(bubble), 2000);
+            }
+        }
+
+        function stir() {
+            const beaker = document.getElementById("beaker");
+            const stirrer = document.createElement("div");
+            stirrer.className = "stirrer";
+            beaker.appendChild(stirrer);
+            setTimeout(() => beaker.removeChild(stirrer), 2000);
+        }
+
+        function updateBeaker(color) {
+            const liquid = document.getElementById("liquid");
+            liquid.style.height = level + "%";
+            liquid.style.backgroundColor = color;
+        }
+
+        function resetBeaker() {
+            level = 30;
+            updateBeaker("#5d4037");
+        }
+    </script>
+</body>
+</html>
